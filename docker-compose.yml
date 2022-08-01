@@ -1,0 +1,36 @@
+services:
+    base:
+        build:
+            context: .
+            target: base
+        image: jacoblincool/playwright:base
+    pnpm:
+        build:
+            context: .
+            target: pnpm
+        image: jacoblincool/playwright:pnpm
+    chrome:
+        build:
+            context: .
+            target: chrome
+        image: jacoblincool/playwright:chrome
+    chromium:
+        build:
+            context: .
+            target: chromium
+        image: jacoblincool/playwright:chromium
+    firefox:
+        build:
+            context: .
+            target: firefox
+        image: jacoblincool/playwright:firefox
+    webkit:
+        build:
+            context: .
+            target: webkit
+        image: jacoblincool/playwright:webkit
+    all:
+        build:
+            context: .
+            target: all
+        image: jacoblincool/playwright:all

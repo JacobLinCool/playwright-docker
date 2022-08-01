@@ -1,0 +1,17 @@
+{
+    "private": true,
+    "name": "test",
+    "description": "",
+    "version": "0.1.0",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "node index.js"
+    },
+    "keywords": [],
+    "author": "JacobLinCool <jacoblincool@gmail.com> (https://github.com/JacobLinCool)",
+    "license": "MIT",
+    "dependencies": {
+        "playwright-core": "^1.24.2"
+    }
+}
