@@ -36,5 +36,14 @@ jobs:
             - name: Build Images
               run: ./local.sh
 
+            - name: Check Versions
+              run: |
+                  docker run --rm jacoblincool/playwright:base
+                  docker run --rm jacoblincool/playwright:chrome
+                  docker run --rm jacoblincool/playwright:chromium
+                  docker run --rm jacoblincool/playwright:firefox
+                  docker run --rm jacoblincool/playwright:webkit
+                  docker run --rm jacoblincool/playwright:all
+
             - name: Test
               run: ./test/test.sh
