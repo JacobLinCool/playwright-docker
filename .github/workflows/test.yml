@@ -22,7 +22,10 @@ jobs:
               uses: pnpm/action-setup@v2.2.2
               with:
                   version: latest
-                  run_install: cd test && pnpm install
+                  run_install: false
+
+            - name: Install Test Dependencies
+              run: cd test && pnpm install
 
             - name: Test
               run: ./test/test.sh
