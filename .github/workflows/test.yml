@@ -27,5 +27,14 @@ jobs:
             - name: Install Test Dependencies
               run: cd test && pnpm install
 
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v2
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v2
+
+            - name: Build Images
+              run: ./local.sh
+
             - name: Test
               run: ./test/test.sh
