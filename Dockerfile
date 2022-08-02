@@ -8,11 +8,11 @@ ENV PATH "$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt update && apt -y install curl libatomic1 ffmpeg make python3 gcc g++ && apt-get clean
-RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh" | bash
+RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh" | bash && rm -rf "$NVM_DIR/.cache"
 
 FROM node as base
 
-RUN npm i -g playwright-core
+RUN npm i -g playwright-core && rm -rf /root/.npm
 CMD echo "Node $(node -v), Playwright $(playwright -V)"
 
 FROM base as pnpm
@@ -20,7 +20,7 @@ FROM base as pnpm
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-RUN npm i -g pnpm
+RUN npm i -g pnpm && rm -rf /root/.npm
 
 FROM pnpm as chrome
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps chrome
