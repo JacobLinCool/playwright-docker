@@ -3,7 +3,7 @@ import { chromium, firefox, webkit } from "playwright-core";
 const TESTS = {
     arm: ["chromium", "firefox"],
     arm64: ["chromium", "firefox", "webkit"],
-    x64: ["chromium", "firefox", "webkit", "chrome"],
+    x64: ["chromium", "firefox", "webkit", "chrome", "msedge"],
 };
 
 test();
@@ -26,6 +26,7 @@ async function test() {
             }
         });
         await page.click("text=Save results");
+        await page.click("#score");
 
         await page.screenshot({ path: `artifacts/${process.arch}-${type}.png`, fullPage: true });
         await page.close();
@@ -43,6 +44,8 @@ async function launch(type) {
             return await webkit.launch();
         case "chrome":
             return await chromium.launch({ executablePath: "/usr/bin/google-chrome" });
+        case "msedge":
+            return await chromium.launch({ executablePath: "/usr/bin/microsoft-edge" });
         default:
             throw new Error(`Unknown browser type: ${type}`);
     }
