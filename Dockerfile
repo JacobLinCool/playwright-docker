@@ -13,7 +13,7 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install
 FROM node as base
 
 RUN npm i -g playwright-core && rm -rf /root/.npm
-CMD echo "Node $(node -v), Playwright $(playwright -V)"
+CMD echo "$(lsb_release -d -s), Node $(node -v), Playwright $(playwright -V)"
 
 FROM base as pnpm
 
@@ -24,24 +24,24 @@ RUN npm i -g pnpm && rm -rf /root/.npm
 
 FROM pnpm as chrome
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps chrome
-CMD echo "Node $(node -v), Playwright $(playwright -V), $(/usr/bin/google-chrome --version)"
+CMD echo "$(lsb_release -d -s), Node $(node -v), Playwright $(playwright -V), $(/usr/bin/google-chrome --version)"
 
 FROM pnpm as chromium
 RUN playwright install --with-deps chromium
-CMD echo "Node $(node -v), Playwright $(playwright -V), $($(echo /root/.cache/ms-playwright/chromium-*/chrome-linux/chrome) --version)"
+CMD echo "$(lsb_release -d -s), Node $(node -v), Playwright $(playwright -V), $($(echo /root/.cache/ms-playwright/chromium-*/chrome-linux/chrome) --version)"
 
 FROM pnpm as firefox
 RUN playwright install --with-deps firefox
-CMD echo "Node $(node -v), Playwright $(playwright -V), $($(echo /root/.cache/ms-playwright/firefox-*/firefox/firefox) --version)"
+CMD echo "$(lsb_release -d -s), Node $(node -v), Playwright $(playwright -V), $($(echo /root/.cache/ms-playwright/firefox-*/firefox/firefox) --version)"
 
 FROM pnpm as webkit
 RUN [ $(arch) == "armv7l" ] || playwright install --with-deps webkit
-CMD echo "Node $(node -v), Playwright $(playwright -V), $($(echo /root/.cache/ms-playwright/webkit-*/minibrowser-wpe/MiniBrowser) --version)"
+CMD echo "$(lsb_release -d -s), Node $(node -v), Playwright $(playwright -V), $($(echo /root/.cache/ms-playwright/webkit-*/minibrowser-wpe/MiniBrowser) --version)"
 
 FROM pnpm as msedge
 RUN apt update && apt -y install gnupg && apt-get clean
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps msedge
-CMD echo "Node $(node -v), Playwright $(playwright -V), $(/usr/bin/microsoft-edge --version)"
+CMD echo "$(lsb_release -d -s), Node $(node -v), Playwright $(playwright -V), $(/usr/bin/microsoft-edge --version)"
 
 FROM chrome as all
 RUN apt update && apt -y install gnupg && apt-get clean
@@ -49,4 +49,4 @@ RUN playwright install --with-deps chromium
 RUN playwright install --with-deps firefox
 RUN [ $(arch) == "armv7l" ] || playwright install --with-deps webkit
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps msedge
-CMD echo "Node $(node -v), Playwright $(playwright -V), $(/usr/bin/google-chrome --version), $($(echo /root/.cache/ms-playwright/chromium-*/chrome-linux/chrome) --version), $($(echo /root/.cache/ms-playwright/firefox-*/firefox/firefox) --version), $($(echo /root/.cache/ms-playwright/webkit-*/minibrowser-wpe/MiniBrowser) --version), $(/usr/bin/microsoft-edge --version)"
+CMD echo "$(lsb_release -d -s), Node $(node -v), Playwright $(playwright -V), $(/usr/bin/google-chrome --version), $($(echo /root/.cache/ms-playwright/chromium-*/chrome-linux/chrome) --version), $($(echo /root/.cache/ms-playwright/firefox-*/firefox/firefox) --version), $($(echo /root/.cache/ms-playwright/webkit-*/minibrowser-wpe/MiniBrowser) --version), $(/usr/bin/microsoft-edge --version)"
