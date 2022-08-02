@@ -9,11 +9,6 @@ services:
             context: .
             target: pnpm
         image: jacoblincool/playwright:pnpm
-    chrome:
-        build:
-            context: .
-            target: chrome
-        image: jacoblincool/playwright:chrome
     chromium:
         build:
             context: .
@@ -29,6 +24,16 @@ services:
             context: .
             target: webkit
         image: jacoblincool/playwright:webkit
+    chrome:
+        build:
+            context: .
+            target: chrome
+        image: jacoblincool/playwright:chrome
+    msedge:
+        build:
+            context: .
+            target: msedge
+        image: jacoblincool/playwright:msedge
     all:
         build:
             context: .
