@@ -27,3 +27,13 @@ jobs:
 
             - name: Build and Push Docker Image
               run: ./scripts/build.sh
+
+            - name: Update Readme
+              run: node ./scripts/update.js
+
+            - name: Docker Hub Description
+              uses: peter-evans/dockerhub-description@v3
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+                  repository: jacoblincool/playwright
