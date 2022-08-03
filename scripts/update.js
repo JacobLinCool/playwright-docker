@@ -5,7 +5,7 @@ const { execSync } = require("node:child_process");
 const readme = fs.readFileSync(path.join(__dirname, "..", "README.md"), "utf8");
 let new_readme = `See https://github.com/JacobLinCool/playwright-docker\n\n---\n\n` + readme;
 
-const tag_regex = /`([a-z0-9/:]+)` - ([^`\n]+)/g;
+const tag_regex = /`([a-z0-9/:-]+)` - ([^`\n]+)/g;
 
 const matches = readme.matchAll(tag_regex);
 if (matches) {
