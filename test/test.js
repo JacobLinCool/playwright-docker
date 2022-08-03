@@ -1,14 +1,7 @@
+import { existsSync } from "fs";
 import { chromium, firefox, webkit } from "playwright-core";
 
-const TESTS = {
-    arm: ["chromium", "firefox"],
-    arm64: ["chromium", "firefox", "webkit"],
-    x64: ["chromium", "firefox", "webkit", "chrome", "msedge"],
-};
-
-test();
-
-async function test() {
+export async function test(TESTS) {
     if (TESTS[process.arch] === undefined) {
         console.log(`Skipping tests for ${process.arch}`);
     }
@@ -37,7 +30,7 @@ async function test() {
 async function launch(type) {
     switch (type) {
         case "chromium":
-            return await chromium.launch();
+            return existsSync("/etc/alpine-release") ? await chromium.launch({ executablePath: "/usr/bin/chromium" }) : await chromium.launch();
         case "firefox":
             return await firefox.launch();
         case "webkit":
