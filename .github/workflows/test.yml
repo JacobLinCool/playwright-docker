@@ -34,7 +34,7 @@ jobs:
               uses: docker/setup-buildx-action@v2
 
             - name: Build Images
-              run: ./local.sh
+              run: ./scripts/local.sh
 
             - name: Check Versions
               run: |
