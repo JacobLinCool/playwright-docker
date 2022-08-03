@@ -15,6 +15,11 @@ View on Docker Hub: [https://hub.docker.com/r/jacoblincool/playwright/](https://
 - `jacoblincool/playwright:msedge` - Ubuntu Focal, Node 18, Playwright, PNPM, Edge
 - `jacoblincool/playwright:all` - Ubuntu Focal, Node 18, Playwright, PNPM, All Browsers
 
+### Lightweight Images
+
+- `jacoblincool/playwright:base-light` - Alpine, Node 18, Playwright
+- `jacoblincool/playwright:chromium-light` - Alpine, Node 18, Playwright, Chromium
+
 ## Supported Architectures
 
 | Browser  | ARMv7 (`armv7l`) | ARMv8 (`aarch64`) | AMD64 (`x86_64`) |
@@ -24,3 +29,13 @@ View on Docker Hub: [https://hub.docker.com/r/jacoblincool/playwright/](https://
 | WebKit   |        ❌         |         ✅         |        ✅         |
 | Chrome   |        ❌         |         ❌         |        ✅         |
 | Edge     |        ❌         |         ❌         |        ✅         |
+
+### Lightweight Image Architectures
+
+| Browser  | ARMv7 (`armv7l`) | ARMv8 (`aarch64`) | AMD64 (`x86_64`) |
+| -------- | :--------------: | :---------------: | :--------------: |
+| Chromium |        ❌         |         ✅         |        ✅         |
+
+## Sources
+
+GitHub: <https://github.com/JacobLinCool/playwright-docker>
