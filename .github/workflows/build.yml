@@ -57,6 +57,9 @@ jobs:
             - build-normal
             - build-light
         steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v3
+
             - name: Update Readme
               run: node ./scripts/update.js
 
