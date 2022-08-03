@@ -39,3 +39,13 @@ services:
             context: .
             target: all
         image: jacoblincool/playwright:all
+    base-light:
+        build:
+            context: .
+            target: base-light
+        image: jacoblincool/playwright:base-light
+    chromium-light:
+        build:
+            context: .
+            target: chromium-light
+        image: jacoblincool/playwright:chromium-light

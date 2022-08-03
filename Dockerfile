@@ -68,3 +68,22 @@ RUN playwright install --with-deps firefox
 RUN [ $(arch) == "armv7l" ] || playwright install --with-deps webkit
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps chrome
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps msedge
+
+### Lightweight Playwright ###
+
+FROM node:alpine as base-light
+
+ENV IMAGE_INFO="Alpine $(cat /etc/alpine-release), Node $(node -v), Playwright $(playwright -V)"
+
+RUN npm i -g playwright-core && rm -rf /root/.npm
+CMD eval echo $IMAGE_INFO
+
+FROM base-light as chromium-light
+
+ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/chromium --version)"
+
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    apk update && \
+    apk add chromium && \
+    ln -s /usr/bin/chromium-browser /usr/bin/chromium
