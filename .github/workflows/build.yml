@@ -28,6 +28,13 @@ jobs:
             - name: Build and Push Docker Image
               run: ./scripts/build.sh
 
+            - name: Tag Image Alias
+              run: |
+                  npm i -g regctl
+                  regctl registry login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+                  regctl image copy jacoblincool/playwright:all jacoblincool/playwright:latest
+                  regctl registry logout
+
     build-light:
         name: Build Light Docker Images
         runs-on: ubuntu-latest
