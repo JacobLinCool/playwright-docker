@@ -82,8 +82,10 @@ FROM base-light as chromium-light
 
 ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/chromium --version)"
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories && \
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.16/main" > /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.16/community" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" > /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk update && \
-    apk add chromium && \
+    apk add --no-cache chromium && \
     ln -s /usr/bin/chromium-browser /usr/bin/chromium
