@@ -29,32 +29,32 @@ FROM pnpm as chromium
 
 ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/chromium-*/chrome-linux/chrome) --version)"
 
-RUN playwright install --with-deps chromium
+RUN playwright-core install --with-deps chromium
 
 FROM pnpm as firefox
 
 ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/firefox-*/firefox/firefox) --version)"
 
-RUN playwright install --with-deps firefox
+RUN playwright-core install --with-deps firefox
 
 FROM pnpm as webkit
 
 ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/webkit-*/minibrowser-wpe/MiniBrowser) --version)"
 
-RUN [ $(arch) == "armv7l" ] || playwright install --with-deps webkit
+RUN [ $(arch) == "armv7l" ] || playwright-core install --with-deps webkit
 
 FROM pnpm as chrome
 
 ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/google-chrome --version)"
 
-RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps chrome
+RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core install --with-deps chrome
 
 FROM pnpm as msedge
 
 ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/microsoft-edge --version)"
 
 RUN apt update && apt -y install gnupg && apt-get clean
-RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps msedge
+RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core install --with-deps msedge
 
 FROM chromium as all
 
@@ -64,10 +64,10 @@ ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/google-chrome --version)"
 ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/microsoft-edge --version)"
 
 RUN apt update && apt -y install gnupg && apt-get clean
-RUN playwright install --with-deps firefox
-RUN [ $(arch) == "armv7l" ] || playwright install --with-deps webkit
-RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps chrome
-RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright install --with-deps msedge
+RUN playwright-core install --with-deps firefox
+RUN [ $(arch) == "armv7l" ] || playwright-core install --with-deps webkit
+RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core install --with-deps chrome
+RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core install --with-deps msedge
 
 ### Lightweight Playwright ###
 
