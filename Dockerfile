@@ -87,5 +87,4 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.18/main" > /etc/apk/repositori
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk update && \
-    apk add --no-cache chromium && \
-    ln -s /usr/bin/chromium-browser /usr/bin/chromium
+    apk add --no-cache chromium
