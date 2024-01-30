@@ -22,19 +22,19 @@ View on Docker Hub: [https://hub.docker.com/r/jacoblincool/playwright/](https://
 
 ## Supported Architectures
 
-| Browser  | ARMv7 (`armv7l`) | ARMv8 (`aarch64`) | AMD64 (`x86_64`) |
-| -------- | :--------------: | :---------------: | :--------------: |
-| Chromium |        ✅         |         ✅         |        ✅         |
-| Firefox  |        ✅         |         ✅         |        ✅         |
-| WebKit   |        ❌         |         ✅         |        ✅         |
-| Chrome   |        ❌         |         ❌         |        ✅         |
-| Edge     |        ❌         |         ❌         |        ✅         |
+| Browser  | ARMv8 (`aarch64`) | AMD64 (`x86_64`) |
+| -------- | :---------------: | :--------------: |
+| Chromium |         ✅         |        ✅         |
+| Firefox  |         ✅         |        ✅         |
+| WebKit   |         ✅         |        ✅         |
+| Chrome   |         ❌         |        ✅         |
+| Edge     |         ❌         |        ✅         |
 
 ### Lightweight Image Architectures
 
-| Browser  | ARMv7 (`armv7l`) | ARMv8 (`aarch64`) | AMD64 (`x86_64`) |
-| -------- | :--------------: | :---------------: | :--------------: |
-| Chromium |        ❌         |         ✅         |        ✅         |
+| Browser  | ARMv8 (`aarch64`) | AMD64 (`x86_64`) |
+| -------- | :---------------: | :--------------: |
+| Chromium |         ✅         |        ✅         |
 
 ## Sources
 

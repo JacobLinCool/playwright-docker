@@ -13,9 +13,9 @@ RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install
 
 FROM node as base
 
-ENV IMAGE_INFO="$(lsb_release -ds), Node $(node -v), Playwright $(playwright -V)"
-
 RUN npm i -g playwright-core && rm -rf /root/.npm
+
+ENV IMAGE_INFO="$(lsb_release -ds), Node $(node -v), Playwright $(playwright-core -V)"
 CMD eval echo $IMAGE_INFO
 
 FROM base as pnpm
@@ -27,34 +27,34 @@ RUN npm i -g pnpm && rm -rf /root/.npm
 
 FROM pnpm as chromium
 
-ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/chromium-*/chrome-linux/chrome) --version)"
-
 RUN playwright-core install --with-deps chromium
+
+ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/chromium-*/chrome-linux/chrome) --version)"
 
 FROM pnpm as firefox
 
-ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/firefox-*/firefox/firefox) --version)"
-
 RUN playwright-core install --with-deps firefox
+
+ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/firefox-*/firefox/firefox) --version)"
 
 FROM pnpm as webkit
 
-ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/webkit-*/minibrowser-wpe/MiniBrowser) --version)"
-
 RUN [ $(arch) == "armv7l" ] || playwright-core install --with-deps webkit
+
+ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/webkit-*/minibrowser-wpe/MiniBrowser) --version)"
 
 FROM pnpm as chrome
 
-ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/google-chrome --version)"
-
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core install --with-deps chrome
+
+ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/google-chrome --version)"
 
 FROM pnpm as msedge
 
-ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/microsoft-edge --version)"
-
 RUN apt update && apt -y install gnupg && apt-get clean
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core install --with-deps msedge
+
+ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/microsoft-edge --version)"
 
 FROM chromium as all
 
@@ -73,14 +73,12 @@ RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core insta
 
 FROM node:alpine as base-light
 
-ENV IMAGE_INFO="Alpine $(cat /etc/alpine-release), Node $(node -v), Playwright $(playwright -V)"
-
 RUN npm i -g playwright-core && rm -rf /root/.npm
 CMD eval echo $IMAGE_INFO
 
-FROM base-light as chromium-light
+ENV IMAGE_INFO="Alpine $(cat /etc/alpine-release), Node $(node -v), Playwright $(playwright-core -V)"
 
-ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/chromium --version)"
+FROM base-light as chromium-light
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.18/main" > /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/v3.18/community" >> /etc/apk/repositories && \
@@ -88,3 +86,5 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.18/main" > /etc/apk/repositori
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk update && \
     apk add --no-cache chromium
+
+ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/chromium --version)"
