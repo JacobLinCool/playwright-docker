@@ -127,3 +127,5 @@ dist
 .pnp.*
 
 **/.DS_Store
+
+test/pnpm-lock.yaml

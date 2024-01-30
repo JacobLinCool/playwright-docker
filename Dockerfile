@@ -2,8 +2,8 @@ FROM ubuntu:focal as node
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR "/root/.nvm"
-ENV NVM_VERSION "0.39.1"
-ENV NODE_VERSION "18.16.1"
+ENV NVM_VERSION "0.39.7"
+ENV NODE_VERSION "20.11.0"
 ENV NODE_PATH "$NVM_DIR/v$NODE_VERSION/lib/node_modules"
 ENV PATH "$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"
 
