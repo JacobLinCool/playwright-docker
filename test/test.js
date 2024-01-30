@@ -10,16 +10,8 @@ export async function test(TESTS) {
         const browser = await launch(type);
         const page = await browser.newPage();
 
-        await page.goto("https://html5test.com/");
-        await page.waitForSelector("text=Save results");
-        page.on("request", (req) => {
-            if (req.url() === "https://html5test.com/api/save") {
-                const id = JSON.parse(decodeURIComponent(req.postData().replace("payload=", ""))).uniqueid;
-                console.log(`${process.arch}-${type}`, `https://html5te.st/${id}`);
-            }
-        });
-        await page.click("text=Save results");
-        await page.click("#score");
+        await page.goto("https://html5test.opensuse.org/");
+        await page.waitForSelector("#score strong");
 
         await page.screenshot({ path: `artifacts/${process.arch}-${type}.png`, fullPage: true });
         await page.close();
