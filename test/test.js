@@ -1,5 +1,6 @@
-import { existsSync } from "fs";
+import { existsSync, writeFileSync } from "fs";
 import { chromium, firefox, webkit } from "playwright-core";
+import html2md from "html-to-md";
 
 export async function test(TESTS) {
     if (TESTS[process.arch] === undefined) {
@@ -14,6 +15,14 @@ export async function test(TESTS) {
         await page.waitForSelector("#score strong");
 
         await page.screenshot({ path: `artifacts/${process.arch}-${type}.png`, fullPage: true });
+        const html = await page.locator("#results").innerHTML();
+        const md = html2md(html);
+        if (process.env.GITHUB_STEP_SUMMARY) {
+            writeFileSync(process.env.GITHUB_STEP_SUMMARY, md);
+        } else {
+            console.log(md);
+        }
+
         await page.close();
         await browser.close();
     }
