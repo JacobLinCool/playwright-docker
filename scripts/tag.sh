@@ -1,6 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 npm i -g regctl
 regctl registry login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+
+function get_version() {
+    echo $1 | cut -d' ' -f2
+}
 
 regctl image copy jacoblincool/playwright:all jacoblincool/playwright:latest
 
@@ -12,7 +16,3 @@ for tag in "${tags[@]}"; do
 done
 
 regctl registry logout
-
-function get_version() {
-    echo $1 | cut -d' ' -f2
-}
