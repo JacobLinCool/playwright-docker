@@ -8,7 +8,7 @@ function get_version() {
 
 regctl image copy jacoblincool/playwright:all jacoblincool/playwright:latest
 
-tags=("base" "chromium" "firefox" "webkit" "chrome" "msedge" "all" "base-light" "chromium-light")
+tags=("base" "chromium" "firefox" "webkit" "chrome" "msedge" "all" "base-light" "chromium-light" "chromium-server" "firefox-server" "webkit-server" "chrome-server" "msedge-server" "chromium-light-server")
 for tag in "${tags[@]}"; do
     docker pull jacoblincool/playwright:$tag
     ver=$(get_version "$(docker run --rm jacoblincool/playwright:$tag playwright-core --version)")

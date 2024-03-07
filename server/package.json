@@ -1,0 +1,13 @@
+{
+    "private": true,
+    "name": "server",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "JacobLinCool <jacoblincool@gmail.com> (https://github.com/JacobLinCool)",
+    "license": "MIT",
+    "dependencies": {
+        "playwright-core": "^1.41.1"
+    }
+}

@@ -49,3 +49,34 @@ services:
             context: .
             target: chromium-light
         image: jacoblincool/playwright:chromium-light
+
+    chromium-server:
+        build:
+            context: .
+            target: chromium-server
+        image: jacoblincool/playwright:chromium-server
+    firefox-server:
+        build:
+            context: .
+            target: firefox-server
+        image: jacoblincool/playwright:firefox-server
+    webkit-server:
+        build:
+            context: .
+            target: webkit-server
+        image: jacoblincool/playwright:webkit-server
+    chrome-server:
+        build:
+            context: .
+            target: chrome-server
+        image: jacoblincool/playwright:chrome-server
+    msedge-server:
+        build:
+            context: .
+            target: msedge-server
+        image: jacoblincool/playwright:msedge-server
+    chromium-light-server:
+        build:
+            context: .
+            target: chromium-light-server
+        image: jacoblincool/playwright:chromium-light-server

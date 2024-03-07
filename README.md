@@ -20,6 +20,19 @@ View on Docker Hub: [https://hub.docker.com/r/jacoblincool/playwright/](https://
 - `jacoblincool/playwright:base-light` - Alpine, Node 18, Playwright
 - `jacoblincool/playwright:chromium-light` - Alpine, Node 18, Playwright, Chromium
 
+### Playwright Servers
+
+Those images are running Playwright Server and expose the WebSocket endpoint, see [./server](./server) for more details.
+
+- `jacoblincool/playwright:chromium-server`
+- `jacoblincool/playwright:firefox-server`
+- `jacoblincool/playwright:webkit-server`
+- `jacoblincool/playwright:chrome-server`
+- `jacoblincool/playwright:msedge-server`
+- `jacoblincool/playwright:chromium-light-server`
+
+The default endpoint is `ws://localhost:53333/playwright`, you can override it by setting the `BROWSER_PORT` and `BROWSER_WS_ENDPOINT` environment variables.
+
 ## Supported Architectures
 
 | Browser  | ARMv8 (`aarch64`) | AMD64 (`x86_64`) |

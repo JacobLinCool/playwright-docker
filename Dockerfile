@@ -88,3 +88,59 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.18/main" > /etc/apk/repositori
     apk add --no-cache chromium
 
 ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/chromium --version)"
+
+### Playwright Server ###
+
+FROM chromium as chromium-server
+
+WORKDIR /server
+
+COPY server/ .
+RUN pnpm install
+
+CMD ["node", "index.mjs"]
+
+FROM firefox as firefox-server
+
+WORKDIR /server
+
+COPY server/ .
+RUN pnpm install
+
+CMD ["node", "index.mjs"]
+
+FROM webkit as webkit-server
+
+WORKDIR /server
+
+COPY server/ .
+RUN pnpm install
+
+CMD ["node", "index.mjs"]
+
+FROM chrome as chrome-server
+
+WORKDIR /server
+
+COPY server/ .
+RUN pnpm install
+
+CMD ["node", "index.mjs"]
+
+FROM msedge as msedge-server
+
+WORKDIR /server
+
+COPY server/ .
+RUN pnpm install
+
+CMD ["node", "index.mjs"]
+
+FROM chromium-light as chromium-light-server
+
+WORKDIR /server
+
+COPY server/ .
+RUN npm install
+
+CMD ["node", "index.mjs"]
