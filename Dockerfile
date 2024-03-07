@@ -1,4 +1,4 @@
-FROM ubuntu:focal as node
+FROM ubuntu:jammy as node
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR "/root/.nvm"
@@ -71,7 +71,7 @@ RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core insta
 
 ### Lightweight Playwright ###
 
-FROM node:alpine as base-light
+FROM node:alpine3.19 as base-light
 
 RUN npm i -g playwright-core && rm -rf /root/.npm
 CMD eval echo $IMAGE_INFO
@@ -80,8 +80,8 @@ ENV IMAGE_INFO="Alpine $(cat /etc/alpine-release), Node $(node -v), Playwright $
 
 FROM base-light as chromium-light
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.18/main" > /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/v3.18/community" >> /etc/apk/repositories && \
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.19/main" > /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.19/community" >> /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
     echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk update && \
