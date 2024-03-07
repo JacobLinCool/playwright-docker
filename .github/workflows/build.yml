@@ -6,8 +6,7 @@ on:
         - cron: "0 0 * * *"
 
 jobs:
-    build-normal:
-        name: Build Normal Docker Images
+    build-normal-base:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Repository
@@ -25,8 +24,98 @@ jobs:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-            - name: Build and Push Docker Image
-              run: ./scripts/build.sh
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                push: true
+                tags: jacoblincool/playwright:base
+                target: base
+                platforms: linux/amd64,linux/arm64/v8
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
+
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                push: true
+                tags: jacoblincool/playwright:pnpm
+                target: pnpm
+                platforms: linux/amd64,linux/arm64/v8
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
+
+    build-normal:
+        needs:
+            - build-normal-base
+        strategy:
+            matrix:
+                target:
+                    - chromium
+                    - firefox
+                    - webkit
+                    - chrome
+                    - msedge
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v3
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                push: true
+                tags: jacoblincool/playwright:${{ matrix.target }}
+                target: ${{ matrix.target }}
+                platforms: linux/amd64,linux/arm64/v8
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
+    
+
+    build-normal-all:
+        needs:
+            - build-normal
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v3
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v3
+
+            - name: Login to Docker Hub
+              uses: docker/login-action@v3
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                push: true
+                tags: jacoblincool/playwright:all
+                target: all
+                platforms: linux/amd64,linux/arm64/v8
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
 
     build-light:
         name: Build Light Docker Images
@@ -47,15 +136,42 @@ jobs:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-            - name: Build and Push Docker Image
-              run: ./scripts/build-light.sh
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                push: true
+                tags: jacoblincool/playwright:base-light
+                target: base-light
+                platforms: linux/amd64,linux/arm64/v8
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
+
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                push: true
+                tags: jacoblincool/playwright:chromium-light
+                target: chromium-light
+                platforms: linux/amd64,linux/arm64/v8
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
 
     build-server:
-        name: Build Server Docker Images
-        runs-on: ubuntu-latest
         needs:
             - build-normal
             - build-light
+        strategy:
+            matrix:
+                target:
+                    - chromium-server
+                    - firefox-server
+                    - webkit-server
+                    - chrome-server
+                    - msedge-server
+                    - chromium-light-server
+        runs-on: ubuntu-latest
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v4
@@ -72,15 +188,22 @@ jobs:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-            - name: Build and Push Docker Image
-              run: ./scripts/build-server.sh
+            - name: Build and push
+              uses: docker/build-push-action@v5
+              with:
+                context: .
+                push: true
+                tags: jacoblincool/playwright:${{ matrix.target }}
+                target: ${{ matrix.target }}
+                platforms: linux/amd64,linux/arm64/v8
+                cache-from: type=gha
+                cache-to: type=gha,mode=max
 
     update-readme:
         name: Update Docker Readme
         runs-on: ubuntu-latest
         needs:
-            - build-normal
-            - build-light
+            - build-normal-all
             - build-server
         steps:
             - name: Checkout Repository

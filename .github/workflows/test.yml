@@ -19,7 +19,7 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Setup PNPM
-              uses: pnpm/action-setup@v2
+              uses: pnpm/action-setup@v3
               with:
                   version: latest
                   run_install: false
@@ -34,7 +34,7 @@ jobs:
               uses: docker/setup-buildx-action@v3
 
             - name: Build Images
-              run: ./scripts/local.sh
+              run: docker buildx bake --load base chrome chromium firefox webkit all chromium-light
 
             - name: Check Versions
               run: |
@@ -44,6 +44,7 @@ jobs:
                   docker run --rm jacoblincool/playwright:firefox
                   docker run --rm jacoblincool/playwright:webkit
                   docker run --rm jacoblincool/playwright:all
+                  docker run --rm jacoblincool/playwright:chromium-light
 
             - name: Test
               run: ./test/test.sh
