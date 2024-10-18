@@ -17,8 +17,8 @@ View on Docker Hub: [https://hub.docker.com/r/jacoblincool/playwright/](https://
 
 ### Lightweight Images
 
-- `jacoblincool/playwright:base-light` - Alpine 3.19, Node 21, Playwright
-- `jacoblincool/playwright:chromium-light` - Alpine 3.19, Node 21, Playwright, Chromium
+- `jacoblincool/playwright:base-light` - Alpine 3.20, Node 23, Playwright
+- `jacoblincool/playwright:chromium-light` - Alpine 3.20, Node 23, Playwright, Chromium
 
 ### Playwright Servers
 

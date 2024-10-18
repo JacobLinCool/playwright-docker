@@ -66,7 +66,7 @@ RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core insta
 
 ### Lightweight Playwright ###
 
-FROM node:alpine AS base-light
+FROM node:alpine3.20 AS base-light
 
 ARG PLAYWRIGHT_VERSION "latest"
 
