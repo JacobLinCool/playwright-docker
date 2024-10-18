@@ -20,38 +20,31 @@ RUN npm i -g playwright-core@$PLAYWRIGHT_VERSION && rm -rf /root/.npm
 ENV IMAGE_INFO="$(lsb_release -ds), Node $(node -v), Playwright $(playwright-core -V)"
 CMD eval echo $IMAGE_INFO
 
-FROM base AS pnpm
-
-ENV PNPM_HOME="/root/.local/share/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-
-RUN npm i -g pnpm && rm -rf /root/.npm
-
-FROM pnpm AS chromium
+FROM base AS chromium
 
 RUN playwright-core install --with-deps chromium
 
 ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/chromium-*/chrome-linux/chrome) --version)"
 
-FROM pnpm AS firefox
+FROM base AS firefox
 
 RUN playwright-core install --with-deps firefox
 
 ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/firefox-*/firefox/firefox) --version)"
 
-FROM pnpm AS webkit
+FROM base AS webkit
 
 RUN [ $(arch) == "armv7l" ] || playwright-core install --with-deps webkit
 
 ENV IMAGE_INFO="$IMAGE_INFO, $($(echo /root/.cache/ms-playwright/webkit-*/minibrowser-wpe/MiniBrowser) --version)"
 
-FROM pnpm AS chrome
+FROM base AS chrome
 
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core install --with-deps chrome
 
 ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/google-chrome --version)"
 
-FROM pnpm AS msedge
+FROM base AS msedge
 
 RUN apt update && apt -y install gnupg && apt-get clean
 RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core install --with-deps msedge
@@ -98,7 +91,7 @@ FROM chromium AS chromium-server
 WORKDIR /server
 
 COPY server/ .
-RUN pnpm install
+RUN npm link playwright-core && npm install
 
 CMD ["node", "index.mjs"]
 
@@ -107,7 +100,7 @@ FROM firefox AS firefox-server
 WORKDIR /server
 
 COPY server/ .
-RUN pnpm install
+RUN npm link playwright-core && npm install
 
 CMD ["node", "index.mjs"]
 
@@ -116,7 +109,7 @@ FROM webkit AS webkit-server
 WORKDIR /server
 
 COPY server/ .
-RUN pnpm install
+RUN npm link playwright-core && npm install
 
 CMD ["node", "index.mjs"]
 
@@ -125,7 +118,7 @@ FROM chrome AS chrome-server
 WORKDIR /server
 
 COPY server/ .
-RUN pnpm install
+RUN npm link playwright-core && npm install
 
 CMD ["node", "index.mjs"]
 
@@ -134,7 +127,7 @@ FROM msedge AS msedge-server
 WORKDIR /server
 
 COPY server/ .
-RUN pnpm install
+RUN npm link playwright-core && npm install
 
 CMD ["node", "index.mjs"]
 
@@ -143,6 +136,6 @@ FROM chromium-light AS chromium-light-server
 WORKDIR /server
 
 COPY server/ .
-RUN npm install
+RUN npm link playwright-core && npm install
 
 CMD ["node", "index.mjs"]
