@@ -8,6 +8,7 @@
     "author": "JacobLinCool <jacoblincool@gmail.com> (https://github.com/JacobLinCool)",
     "license": "MIT",
     "dependencies": {
-        "playwright-core": "^1.41.1"
+        "playwright-core": "^1.41.1",
+        "shell-quote": "^1.8.1"
     }
 }
