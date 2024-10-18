@@ -11,9 +11,9 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt update && apt -y install curl libatomic1 ffmpeg make python3 gcc g++ lsb-core && apt-get clean
 RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh" | bash && rm -rf "$NVM_DIR/.cache"
 
-ARG PLAYWRIGHT_VERSION "latest"
-
 FROM node AS base
+
+ARG PLAYWRIGHT_VERSION "latest"
 
 RUN npm i -g playwright-core@$PLAYWRIGHT_VERSION && rm -rf /root/.npm
 
@@ -66,7 +66,9 @@ RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core insta
 
 ### Lightweight Playwright ###
 
-FROM node:alpine3.19 AS base-light
+FROM node:alpine AS base-light
+
+ARG PLAYWRIGHT_VERSION "latest"
 
 RUN npm i -g playwright-core@$PLAYWRIGHT_VERSION && rm -rf /root/.npm
 CMD eval echo $IMAGE_INFO
@@ -75,12 +77,7 @@ ENV IMAGE_INFO="Alpine $(cat /etc/alpine-release), Node $(node -v), Playwright $
 
 FROM base-light AS chromium-light
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.19/main" > /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/v3.19/community" >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    apk update && \
-    apk add --no-cache chromium
+RUN apk update && apk add --no-cache chromium
 
 ENV IMAGE_INFO="$IMAGE_INFO, $(/usr/bin/chromium --version)"
 
