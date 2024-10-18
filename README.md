@@ -7,13 +7,12 @@ View on Docker Hub: [https://hub.docker.com/r/jacoblincool/playwright/](https://
 ## Tags
 
 - `jacoblincool/playwright:base` - Ubuntu Jammy, Node 20, Playwright
-- `jacoblincool/playwright:pnpm` - Ubuntu Jammy, Node 20, Playwright, PNPM
-- `jacoblincool/playwright:chromium` - Ubuntu Jammy, Node 20, Playwright, PNPM, Chromium
-- `jacoblincool/playwright:firefox` - Ubuntu Jammy, Node 20, Playwright, PNPM, Firefox
-- `jacoblincool/playwright:webkit` - Ubuntu Jammy, Node 20, Playwright, PNPM, WebKit
-- `jacoblincool/playwright:chrome` - Ubuntu Jammy, Node 20, Playwright, PNPM, Chrome
-- `jacoblincool/playwright:msedge` - Ubuntu Jammy, Node 20, Playwright, PNPM, Edge
-- `jacoblincool/playwright:all` - Ubuntu Jammy, Node 20, Playwright, PNPM, All Browsers
+- `jacoblincool/playwright:chromium` - Ubuntu Jammy, Node 20, Playwright, Chromium
+- `jacoblincool/playwright:firefox` - Ubuntu Jammy, Node 20, Playwright, Firefox
+- `jacoblincool/playwright:webkit` - Ubuntu Jammy, Node 20, Playwright, WebKit
+- `jacoblincool/playwright:chrome` - Ubuntu Jammy, Node 20, Playwright, Chrome
+- `jacoblincool/playwright:msedge` - Ubuntu Jammy, Node 20, Playwright, Edge
+- `jacoblincool/playwright:all` - Ubuntu Jammy, Node 20, Playwright, All Browsers
 
 ### Lightweight Images
 
@@ -39,11 +38,30 @@ They can be run using the following command:
 docker run --rm -p 53333:53333 jacoblincool/playwright:chromium-light-server
 ```
 
-And connect to the server using Playwright:
+#### Connect to server using Playwright
 
-```ts
+##### Javascript
+
+```javascript
 import { chromium } from "playwright";
 const browser = await chromium.connect("ws://localhost:53333/playwright");
+```
+
+##### Python
+
+In [examples](https://playwright.dev/python/docs/api/class-playwright) replace (`BrowserType` method) `launch` with `connect`
+
+```python
+import asyncio
+import playwright.async_api as playwright
+
+
+async def main():
+    async with playwright.async_playwright() as playwright:
+        browser: playwright.Browser = playwright.chromium.connect("ws://localhost:53333/playwright")
+
+
+asyncio.run(main())
 ```
 
 ## Supported Architectures
