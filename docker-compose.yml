@@ -4,11 +4,6 @@ services:
             context: .
             target: base
         image: jacoblincool/playwright:base
-    pnpm:
-        build:
-            context: .
-            target: pnpm
-        image: jacoblincool/playwright:pnpm
     chromium:
         build:
             context: .
