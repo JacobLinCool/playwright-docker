@@ -1,4 +1,4 @@
-FROM ubuntu:jammy AS node
+FROM ubuntu:noble AS node
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR "/root/.nvm"
@@ -8,7 +8,7 @@ ENV NODE_PATH "$NVM_DIR/v$NODE_VERSION/lib/node_modules"
 ENV PATH "$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN apt update && sudo dpkg --purge libc-bin && apt install libc-bin && apt -y install curl libatomic1 ffmpeg make python3 gcc g++ lsb-core && apt-get clean
+RUN apt update && apt -y install curl libatomic1 ffmpeg make python3 gcc g++ lsb-core && apt-get clean
 RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh" | bash && rm -rf "$NVM_DIR/.cache"
 
 FROM node AS base
@@ -66,7 +66,7 @@ RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core insta
 
 ### Lightweight Playwright ###
 
-FROM node:alpine3.20 AS base-light
+FROM node:alpine3.21 AS base-light
 
 ARG PLAYWRIGHT_VERSION "latest"
 
