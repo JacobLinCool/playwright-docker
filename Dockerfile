@@ -8,7 +8,7 @@ ENV NODE_PATH "$NVM_DIR/v$NODE_VERSION/lib/node_modules"
 ENV PATH "$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-RUN apt update && apt -y install curl libatomic1 ffmpeg make python3 gcc g++ lsb-core && apt-get clean
+RUN apt update && apt purge libc-bin && apt install libc-bin && apt -y install curl libatomic1 ffmpeg make python3 gcc g++ lsb-core && apt-get clean
 RUN curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh" | bash && rm -rf "$NVM_DIR/.cache"
 
 FROM node AS base
