@@ -2,8 +2,8 @@ FROM ubuntu:noble AS node
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV NVM_DIR "/root/.nvm"
-ENV NVM_VERSION "0.39.7"
-ENV NODE_VERSION "22.14.0"
+ENV NVM_VERSION "0.40.4"
+ENV NODE_VERSION "24.15.0"
 ENV NODE_PATH "$NVM_DIR/v$NODE_VERSION/lib/node_modules"
 ENV PATH "$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"
 
@@ -66,7 +66,7 @@ RUN [ $(arch) == "armv7l" ] || [ $(arch) == "aarch64" ] || playwright-core insta
 
 ### Lightweight Playwright ###
 
-FROM node:alpine3.21 AS base-light
+FROM node:alpine3.23 AS base-light
 
 ARG PLAYWRIGHT_VERSION "latest"
 

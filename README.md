@@ -6,18 +6,18 @@ View on Docker Hub: [https://hub.docker.com/r/jacoblincool/playwright/](https://
 
 ## Tags
 
-- `jacoblincool/playwright:base` - Ubuntu Jammy, Node 20, Playwright
-- `jacoblincool/playwright:chromium` - Ubuntu Jammy, Node 20, Playwright, Chromium
-- `jacoblincool/playwright:firefox` - Ubuntu Jammy, Node 20, Playwright, Firefox
-- `jacoblincool/playwright:webkit` - Ubuntu Jammy, Node 20, Playwright, WebKit
-- `jacoblincool/playwright:chrome` - Ubuntu Jammy, Node 20, Playwright, Chrome
-- `jacoblincool/playwright:msedge` - Ubuntu Jammy, Node 20, Playwright, Edge
-- `jacoblincool/playwright:all` - Ubuntu Jammy, Node 20, Playwright, All Browsers
+- `jacoblincool/playwright:base` - Ubuntu Noble, Node 24, Playwright
+- `jacoblincool/playwright:chromium` - Ubuntu Noble, Node 24, Playwright, Chromium
+- `jacoblincool/playwright:firefox` - Ubuntu Noble, Node 24, Playwright, Firefox
+- `jacoblincool/playwright:webkit` - Ubuntu Noble, Node 24, Playwright, WebKit
+- `jacoblincool/playwright:chrome` - Ubuntu Noble, Node 24, Playwright, Chrome
+- `jacoblincool/playwright:msedge` - Ubuntu Noble, Node 24, Playwright, Edge
+- `jacoblincool/playwright:all` - Ubuntu Noble, Node 24, Playwright, All Browsers
 
 ### Lightweight Images
 
-- `jacoblincool/playwright:base-light` - Alpine 3.20, Node 23, Playwright
-- `jacoblincool/playwright:chromium-light` - Alpine 3.20, Node 23, Playwright, Chromium
+- `jacoblincool/playwright:base-light` - Alpine 3.23, Node 24, Playwright
+- `jacoblincool/playwright:chromium-light` - Alpine 3.23, Node 24, Playwright, Chromium
 
 ### Playwright Servers
 
